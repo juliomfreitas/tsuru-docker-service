@@ -1,7 +1,10 @@
-# coding: utf-8
+import os
 
 import flask
-import os
+from flask import request
+
+from .adapters import get_adapter
+from .model import ContainerModel
 
 app = flask.Flask(__name__)
 app.debug = os.environ.get('DEBUG', '0') in ('true', 'True', '1')
@@ -9,39 +12,50 @@ app.debug = os.environ.get('DEBUG', '0') in ('true', 'True', '1')
 
 @app.route("/resources/<name>/bind-app", methods=["POST"])
 def bind_app(name):
-    pass
+    return "", 201
 
 
 @app.route("/resources/<name>/bind-app", methods=["DELETE"])
 def unbind_app(name):
-    pass
+    return "", 200
 
 
 @app.route("/resources/<name>/bind", methods=["POST"])
 def bind_unit(name):
-    pass
+    return "", 201
 
 
 @app.route("/resources/<name>/bind", methods=["DELETE"])
 def unbind_unit(name):
-    pass
+    return "", 200
 
 
 @app.route("/resources", methods=["POST"])
 def add_instance():
-    pass
+    plan = request.form.get('plan')
+
+    if not plan:
+        return "plan is required", 400
+
+    adapter = get_adapter(plan)
+
+    container = adapter.create_container()
+
+    ContainerModel.create(container)
+
+    return "", 201
 
 
 @app.route("/resources/<name>", methods=["DELETE"])
 def remove_instance(name):
-    pass
+    return "", 200
 
 
 @app.route("/resources/<name>/status", methods=["GET"])
 def status(name):
-    pass
+    return msg, 500
 
 
 @app.route("/resources/plans", methods=["GET"])
 def plans():
-    pass
+    return json.dumps(active_plans()), 200
