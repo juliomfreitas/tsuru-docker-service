@@ -3,7 +3,7 @@ import os
 import flask
 from flask import request
 
-from .adapters import get_adapter
+from .adapters import get_adapter, AdapterNotFound
 from .model import ContainerModel
 
 app = flask.Flask(__name__)
@@ -33,11 +33,13 @@ def unbind_unit(name):
 @app.route("/resources", methods=["POST"])
 def add_instance():
     plan = request.form.get('plan')
-
     if not plan:
         return "plan is required", 400
 
-    adapter = get_adapter(plan)
+    try:
+        adapter = get_adapter(plan)
+    except AdapterNotFound as exc:
+        return exc.message, 400
 
     container = adapter.create_container()
 
