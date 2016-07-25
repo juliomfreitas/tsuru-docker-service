@@ -4,4 +4,6 @@ import os
 MONGDB_ENDPOINT = os.environ.get(
     "MONGDB_ENDPOINT", "mongodb://localhost:27017/")
 
-REDIS_IMAGE = os.environ.get("REDIS_IMAGE", "redis:latest")
+DOCKER_IMAGES = {'redis': "redis:latest"}
+
+DOCKER_ENDPOINT = os.environ.get("DOCKER_ENDPOINT")
