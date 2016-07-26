@@ -1,25 +1,27 @@
+import re
 import pymongo
-from pymongo.errors import ConfigurationError
 
-import settings
+from . import settings
 
 
-class ContainerModel(object):
+MONGO_REGEX = r'^mongodb\:\/\/(?P<host>[@:_\.\w]+):(?P<port>\d+)/'\
+              '(?P<database>[_\w]+)$'
 
-    @staticmethod
-    def _db():
-        client = pymongo.MongoClient(settings.MONGDB_ENDPOINT)
-        try:
-            database = client.get_default_database()
-            database_name = database.name
-        except ConfigurationError:
-            pass
 
-        return client[database_name]
+class BaseModel:
 
-    @staticmethod
-    def create(container):
-        ContainerModel._db().instances.insert(container.to_json())
+    def _db(self):
+        endpoint = settings.MONGDB_ENDPOINT
+        client = pymongo.MongoClient(endpoint)
+
+        config = re.compile(MONGO_REGEX).match(endpoint).groupdict()
+        return client[config['database']].contaners
+
+
+class ContainerModel(BaseModel):
+
+    def create_from_adapter(self, adapter):
+        self._db().insert(adapter.serialize())
 
     def delete(self, instance):
-        ContainerModel._db().instances.remove({"name": instance.name})
+        self._db().remove({"name": instance.name})
