@@ -14,7 +14,13 @@ app.debug = os.environ.get('DEBUG', '0') in ('true', 'True', '1')
 
 @app.route("/resources/<name>/bind-app", methods=["POST"])
 def bind_app(name):
-    return "", 201
+    data = ContainerModel().get(instance_name=name)
+    try:
+        adapter = get_adapter(data["name"], container_id=data['container_id'])
+    except AdapterNotFound as exc:
+        return exc.message, 400
+
+    return json.dumps(adapter.get_environment()), 201
 
 
 @app.route("/resources/<name>/bind-app", methods=["DELETE"])
