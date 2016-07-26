@@ -1,3 +1,0 @@
-hooks:
-  build:
-    - pip install -r requirements/development.txt
