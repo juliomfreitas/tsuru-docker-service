@@ -55,6 +55,18 @@ def add_instance():
 
 @app.route("/resources/<name>", methods=["DELETE"])
 def remove_instance(name):
+    plan = request.form.get('plan')
+    if not plan:
+        return "plan is required", 400
+
+    try:
+        adapter = get_adapter(plan)
+    except AdapterNotFound as exc:
+        return exc.message, 400
+
+    adapter.destroy_container()
+    ContainerModel().destroy_from_adapter(adapter)
+
     return "", 200
 
 
