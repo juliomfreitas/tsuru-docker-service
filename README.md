@@ -1,3 +1,6 @@
+[![Build Status](https://travis-ci.org/juliomfreitas/tsuru-docker-service.svg?branch=master)](https://travis-ci.org/juliomfreitas/tsuru-docker-service)
+
+
 # tsuru-docker-service
 
 **Tsuru Docker Service (TDS)** provides easy to use, powerful and flexible manager of Tsuru's services (tsuru.io) using Docker server.
@@ -12,7 +15,7 @@ TODO: Docker host and mongodb (that can be inside docker)
 
 To use TDS we must perform the following steps:
 
- - [Get the demo app](#get-demo)
+ - [Clone this repository](#clone-repo)
  - [Create Tsuru app for the service](#create-tsuru-app)
  - [Configure the app](#configure-app)
  - [Deploy the app](#deploy-service-app)
@@ -21,31 +24,35 @@ To use TDS we must perform the following steps:
  - [Bind the service's instance to your app](#bind-service)
 
 
-## <a name="get-demo"></a>Get the demo app
-You can get [the demo app](demo/) running the following commands on your workdir:
+## <a name="clone-repo"></a>Clone this repository
 
 ```bash
 git clone https://github.com/juliomfreitas/tsuru-docker-service.git
-cp -r tsuru-docker-service/demo my-docker-service
-cd my-docker-service/
+cd tsuru-docker-service/
 ```
-
-> NOTE: Now your workdir will be **./my-docker-service/**.
-
-> NOTE²: Instead of 'my-docker-service' set the dir name with a name that make sense for you context.
-
 
 ## <a name="create-tsuru-app"></a>Create Tsuru app for the service
 
 Now you have to create a Tsuru app that will run your service manager.
 
 ```bash
-
 tsuru app-create docker-service python -t myteam -o mypool
 ```
 
-> NOTE: Execute **tsuru app-create --help** to see all options.
+> NOTE: Execute **tsuru app-create --help** to see all options
 
+The result of the command:
+
+> App "docker-service" has been created!
+> Use app-info to check the status of the app and its units.
+> Your repository for "docker-service" project is
+> **"git@your-domain.com:docker-service.git"**
+
+Above, the returned git repository URL is **"git@your-domain.com:docker-service.git"**. In order to deploy the app you need to set on you environment the returned repository url:
+
+```bash
+git remote add tsuru [GIT_REPOSITORY_URL]
+```
 
 ## <a name="configure-app"></a>Configure the app
 
@@ -61,7 +68,14 @@ The TDS requires the following variables:
 
 
 
-## <a name="deploy-service-app"></a>Deploy the app
+## <a name="deploy-service-app"></a>Deploy the service app
+
+To deploy the service (you already created the `tsuru` remote before) just type:
+
+```bash
+git push tsuru master
+```
+
 
 ## <a name="create-tsuru-service"></a>Create Tsuru service
 
