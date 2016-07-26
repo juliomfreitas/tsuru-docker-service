@@ -1,4 +1,11 @@
+try:
+    from urllib.parse import urlparse
+except ImportError:
+    # Python 2.x
+    from urlparse import urlparse
+
 import docker
+
 from tsuru_docker_service import settings
 
 
@@ -6,12 +13,18 @@ class BaseAdapter:
     # Image name used to find the image of the docker containers
     name = None
 
+    _client = None
+
     def __init__(self, container_id=None, instance_name=None):
         self.container_id = container_id
         self.instance_name = instance_name
 
     def client(self):
-        return docker.Client(base_url=settings.DOCKER_ENDPOINT)
+        if self._client:
+            return self._client
+
+        self._client = docker.Client(base_url=settings.DOCKER_ENDPOINT)
+        return self._client
 
     def create_container(self, instance_name=None):
         client = self.client()
@@ -42,3 +55,9 @@ class BaseAdapter:
                 "instance_name": self.instance_name,
                 "container_id": self.container_id,
                 "port": self.discover_published_port()}
+
+    def get_environment(self):
+        raise NotImplementedError()
+
+    def get_host(self):
+        return urlparse(settings.DOCKER_ENDPOINT).netloc.split(':')[0]
