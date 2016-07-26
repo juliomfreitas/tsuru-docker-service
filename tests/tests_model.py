@@ -25,10 +25,10 @@ class ContainerModelTestCase(unittest.TestCase):
         self.assertEqual(created['adapter'], "redis")
         self.assertEqual(created['container_id'], "dummy")
 
-    def test_destroy_from_adapter(self):
+    def test_destroy(self):
         adapter = adapters.RedisAdapter()
         adapter.container_id = 'dummy'
-        adapter.instance_name = 'my dummy instance'
+        adapter.instance_name = 'my-dummy-instance'
         adapter.discover_published_port = lambda: 6379
 
         containers = mongomock.MongoClient().db.containers
@@ -37,5 +37,5 @@ class ContainerModelTestCase(unittest.TestCase):
 
         container.create_from_adapter(adapter)
         self.assertEqual(containers.count(), 1)
-        container.destroy_from_adapter(adapter)
+        container.destroy(instance_name=adapter.instance_name)
         self.assertEqual(containers.count(), 0)

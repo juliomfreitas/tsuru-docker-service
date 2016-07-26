@@ -25,3 +25,9 @@ class ContainerModel(BaseModel):
 
     def destroy_from_adapter(self, adapter):
         self._db().delete_one({"container_id": adapter.container_id})
+
+    def get(self, **filters):
+        return self._db().find_one(filters)
+
+    def destroy(self, **filters):
+        return self._db().remove(filters)
