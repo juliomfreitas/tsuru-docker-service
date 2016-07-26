@@ -69,7 +69,7 @@ def destroy_instance(name):
 
 @app.route("/resources/<name>/status", methods=["GET"])
 def status(name):
-    return "", 500
+    return "", 204
 
 
 @app.route("/resources/plans", methods=["GET"])
