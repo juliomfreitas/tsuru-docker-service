@@ -23,5 +23,5 @@ class ContainerModel(BaseModel):
     def create_from_adapter(self, adapter):
         self._db().insert(adapter.serialize())
 
-    def delete(self, instance):
-        self._db().remove({"name": instance.name})
+    def destroy_from_adapter(self, adapter):
+        self._db().remove({"container_id": adapter.container_id})
