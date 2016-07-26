@@ -74,4 +74,7 @@ def status(name):
 
 @app.route("/resources/plans", methods=["GET"])
 def plans():
-    return json.dumps(list(adapters_mapping.keys())), 200
+    description_plans = [{"name": name, "description": ""}
+                         for name in list(adapters_mapping.keys())]
+
+    return json.dumps(description_plans), 200

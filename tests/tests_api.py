@@ -41,5 +41,7 @@ class ApiTestCase(unittest.TestCase):
     def test_get_plans(self):
         response = self.client.get('/resources/plans')
 
-        self.assertEqual(json.loads(response.data.decode('utf-8')),
+        plans_description = json.loads(response.data.decode('utf-8'))
+
+        self.assertEqual([plan["name"] for plan in plans_description],
                          list(adapters_mapping.keys()))
