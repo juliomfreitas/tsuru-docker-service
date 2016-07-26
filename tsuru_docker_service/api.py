@@ -1,9 +1,11 @@
 import os
 
 import flask
+import json
+
 from flask import request
 
-from .adapters import get_adapter, AdapterNotFound
+from .adapters import get_adapter, AdapterNotFound, adapters_mapping
 from .model import ContainerModel
 
 app = flask.Flask(__name__)
@@ -59,4 +61,4 @@ def status(name):
 
 @app.route("/resources/plans", methods=["GET"])
 def plans():
-    return json.dumps(active_plans()), 200
+    return json.dumps(list(adapters_mapping.keys())), 200

@@ -1,7 +1,9 @@
 import unittest
 import mock
+import json
 
 from tsuru_docker_service import api
+from tsuru_docker_service.adapters import adapters_mapping
 
 
 class ApiTestCase(unittest.TestCase):
@@ -20,3 +22,9 @@ class ApiTestCase(unittest.TestCase):
             mocked_get_adapter.return_value.create_container.called)
 
         self.assertEqual(response.status_code, 201)
+
+    def test_get_plans(self):
+        response = self.client.get('/resources/plans')
+
+        self.assertEqual(json.loads(response.data.decode('utf-8')),
+                         list(adapters_mapping.keys()))
