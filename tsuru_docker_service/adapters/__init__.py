@@ -1,7 +1,9 @@
 from .redis_adapter import RedisAdapter
+from .memcached_adapter import MemcachedAdapter
 
 
-adapters_mapping = {'redis': RedisAdapter}
+adapters_mapping = {'redis': RedisAdapter,
+					'memcached': MemcachedAdapter}
 
 
 class AdapterNotFound(BaseException):
