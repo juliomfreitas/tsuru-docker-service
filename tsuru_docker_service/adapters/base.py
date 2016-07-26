@@ -6,6 +6,9 @@ class BaseAdapter:
     # Image name used to find the image of the docker containers
     name = None
 
+    # Id of container used by the Docker service
+    container_id = None
+
     def client(self):
         return docker.Client(base_url=settings.DOCKER_ENDPOINT)
 
@@ -29,3 +32,8 @@ class BaseAdapter:
         result = client.inspect_container(self.container_id)
 
         return result['NetworkSettings']['Ports'].values()[0][0]['HostPort']
+
+    def serialize(self):
+        return {"adapter": self.name,
+                "container_id": self.container_id,
+                "port": self.discover_published_port()}
