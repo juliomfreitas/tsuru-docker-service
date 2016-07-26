@@ -1,0 +1,6 @@
+id: docker-service
+team: admin
+username: your-user
+password: *************
+endpoint:
+  production: docker-service.yourdomain.com
