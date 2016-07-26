@@ -11,7 +11,7 @@ MONGO_REGEX = r'^mongodb\:\/\/(?P<host>[@:_\.\w]+):(?P<port>\d+)/'\
 class BaseModel:
 
     def _db(self):
-        endpoint = settings.MONGDB_ENDPOINT
+        endpoint = settings.MONGODB_ENDPOINT
         client = pymongo.MongoClient(endpoint)
 
         config = re.compile(MONGO_REGEX).match(endpoint).groupdict()
