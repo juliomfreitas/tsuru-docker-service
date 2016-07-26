@@ -9,6 +9,7 @@ class ContainerModelTestCase(unittest.TestCase):
     def test_create_from_adapter(self):
         adapter = adapters.RedisAdapter()
         adapter.container_id = 'dummy'
+        adapter.instance_name = 'my dummy instance'
         adapter.discover_published_port = lambda: 6379
 
         containers = mongomock.MongoClient().db.containers
@@ -27,6 +28,7 @@ class ContainerModelTestCase(unittest.TestCase):
     def test_destroy_from_adapter(self):
         adapter = adapters.RedisAdapter()
         adapter.container_id = 'dummy'
+        adapter.instance_name = 'my dummy instance'
         adapter.discover_published_port = lambda: 6379
 
         containers = mongomock.MongoClient().db.containers
