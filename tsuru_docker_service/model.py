@@ -4,7 +4,7 @@ import pymongo
 from . import settings
 
 
-MONGO_REGEX = r'^mongodb\:\/\/(?P<host>[@:_\.\w]+):(?P<port>\d+)/'\
+MONGO_REGEX = r'^mongodb\:\/\/(?P<host>[-@:_\.\w]+):(?P<port>\d+)/'\
               '(?P<database>[_\w]+)$'
 
 
