@@ -24,6 +24,20 @@ class ApiTestCase(unittest.TestCase):
 
         self.assertEqual(response.status_code, 201)
 
+    @mock.patch('tsuru_docker_service.api.get_adapter')
+    @mock.patch('tsuru_docker_service.api.ContainerModel')
+    def test_destroy_instance(self, mockedContainerModel, mocked_get_adapter):
+        response = self.client.delete(
+            '/resources/my-redis-server')
+
+        must_be_called = [
+            mockedContainerModel.return_value.get.called,
+            mockedContainerModel.return_value.destroy.called,
+            mocked_get_adapter.return_value.destroy_container.called,
+        ]
+        self.assertTrue(all(must_be_called))
+        self.assertEqual(response.status_code, 200)
+
     def test_get_plans(self):
         response = self.client.get('/resources/plans')
 
