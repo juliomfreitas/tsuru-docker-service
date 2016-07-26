@@ -38,12 +38,16 @@ def add_instance():
     if not plan:
         return "plan is required", 400
 
+    instance_name = request.form.get('name')
+    if not instance_name:
+        return "name of the instance is required", 400
+
     try:
         adapter = get_adapter(plan)
     except AdapterNotFound as exc:
         return exc.message, 400
 
-    adapter.create_container()
+    adapter.create_container(instance_name=instance_name)
     ContainerModel().create_from_adapter(adapter)
 
     return "", 201

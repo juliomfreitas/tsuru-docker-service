@@ -14,7 +14,8 @@ class ApiTestCase(unittest.TestCase):
     @mock.patch('tsuru_docker_service.api.get_adapter')
     @mock.patch('tsuru_docker_service.api.ContainerModel')
     def test_add_instance(self, mockedContainerModel, mocked_get_adapter):
-        response = self.client.post('/resources', data={"plan": "redis"})
+        response = self.client.post(
+            '/resources', data={"plan": "redis", "name": "my-redis-server"})
 
         self.assertTrue(
             mockedContainerModel.return_value.create_from_adapter.called)
