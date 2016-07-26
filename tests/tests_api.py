@@ -38,6 +38,20 @@ class ApiTestCase(unittest.TestCase):
         self.assertTrue(all(must_be_called))
         self.assertEqual(response.status_code, 200)
 
+    @mock.patch('tsuru_docker_service.api.get_adapter')
+    @mock.patch('tsuru_docker_service.api.ContainerModel')
+    def test_bind_app(self, mockedContainerModel, mocked_get_adapter):
+        mocked_get_adapter.return_value.get_environment.return_value = {}
+        response = self.client.post(
+            '/resources/my-redis-server/bind-app')
+
+        must_be_called = [
+            mockedContainerModel.return_value.get.called,
+            mocked_get_adapter.return_value.get_environment.called,
+        ]
+        self.assertTrue(all(must_be_called))
+        self.assertEqual(response.status_code, 201)
+
     def test_get_plans(self):
         response = self.client.get('/resources/plans')
 
