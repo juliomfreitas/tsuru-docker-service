@@ -76,8 +76,21 @@ To deploy the service (you already created the `tsuru` remote before) just type:
 git push tsuru master
 ```
 
-
 ## <a name="create-tsuru-service"></a>Create Tsuru service
+
+For a full understanding you need to read the [documentation](https://docs.tsuru.io/stable/services/build.html).
+
+Install `crane` and login
+
+Edit the `tsuru-service-manifest.yaml` file setting your login data. The team name must be an existing team name on your infrastructure.
+
+```bash
+$ crane create tsuru-service-manifest.yaml
+
+> Service successfully created
+
+```
+
 
 ## <a name="create-service-instance"></a>Create service instance
 
