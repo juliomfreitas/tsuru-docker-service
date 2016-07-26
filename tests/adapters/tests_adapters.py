@@ -42,3 +42,11 @@ class CreateContainerTestCase(unittest.TestCase):
             mock_docker.Client.return_value.remove_container.called)
         self.assertTrue(
             mock_docker.Client.return_value.stop.called)
+
+    def test_get_environment(self):
+        adapter = adapters.RedisAdapter()
+        adapter.discover_published_port = lambda: 6379
+
+        environment = adapter.get_environment()
+        self.assertEqual(environment,
+                         {'REDIS_HOST': '127.0.0.1', 'REDIS_PORT': 6379})
