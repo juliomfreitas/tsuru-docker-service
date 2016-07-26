@@ -41,9 +41,8 @@ def add_instance():
     except AdapterNotFound as exc:
         return exc.message, 400
 
-    container = adapter.create_container()
-
-    ContainerModel.create(container)
+    adapter.create_container()
+    ContainerModel().create_from_adapter(adapter)
 
     return "", 201
 
@@ -55,7 +54,7 @@ def remove_instance(name):
 
 @app.route("/resources/<name>/status", methods=["GET"])
 def status(name):
-    return msg, 500
+    return "", 500
 
 
 @app.route("/resources/plans", methods=["GET"])
