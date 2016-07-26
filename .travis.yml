@@ -3,5 +3,6 @@ python:
   - "3.4"
   - "pypy3"
 install:
+  - pip install -U setuptools
   - python setup.py develop
 script: python setup.py test
