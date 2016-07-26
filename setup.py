@@ -18,7 +18,7 @@ setup(
     namespace_packages=['tsuru_docker_service'],
     package_dir={'tsuru_docker_service': 'tsuru_docker_service'},
     download_url="{}/tarball/master".format(github_url),
-    tests_require=["nose"],
+    tests_require=["nose", "mongomock"],
     test_suite='tests',
     classifiers=[
         "Development Status :: 3 - Alpha",
