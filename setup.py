@@ -1,9 +1,16 @@
+import sys
 from setuptools import setup
 
 import tsuru_docker_service
 
 
 github_url = "https://github.com/juliomfreitas/tsuru-docker-service"
+
+REQUIREMENTS = [i.strip() for i in open("requirements.txt").readlines()]
+if sys.argv[1] == 'develop':
+    REQUIREMENTS += [i.strip()
+                     for i in open("requirements_dev.txt").readlines()]
+
 
 setup(
     name="tsuru-docker-service",
@@ -18,7 +25,7 @@ setup(
     namespace_packages=['tsuru_docker_service'],
     package_dir={'tsuru_docker_service': 'tsuru_docker_service'},
     download_url="{}/tarball/master".format(github_url),
-    tests_require=["nose", "mongomock"],
+    install_requires=REQUIREMENTS,
     test_suite='tests',
     classifiers=[
         "Development Status :: 3 - Alpha",
