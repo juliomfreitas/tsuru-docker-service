@@ -5,10 +5,13 @@
 
 **Tsuru Docker Service (TDS)** provides easy to use, powerful and flexible manager of Tsuru's services (tsuru.io) using Docker server.
 
+The concept is that we install this app as a service inside your tsuru environment. You will create instances of this app that starts docker containers and we bind this instances to your app.
+
+So you could create with this services instances of redis, mysql, memcached, mongodb, et cetera and plug this services inside yout tsuru app.
 
 # Requirements
 
-TODO: Docker host and mongodb (that can be inside docker)
+First you need a running docker engine and a mongodb (that can be a container inside this same docker). This two services must be accessible inside the environment.
 
 
 # Usage
@@ -61,13 +64,13 @@ service will use.
 
 The TDS requires the following variables:
 
- - `MONGODB_ENDPOINT` - E.g: "mongodb://$DOCKER_HOST:27017/"
+ - `MONGODB_ENDPOINT` - E.g: "mongodb://$MONGODB_HOST:27017/"
  - `DOCKER_ENDPOINT` - E.g: "http://$DOCKER_HOST:2375"
 
 To add the environment variables into service app execute:
 
 ```bash
-tsuru env-set MONGODB_ENDPOINT=mongodb://$DOCKER_HOST:27017/db -a docker-service
+tsuru env-set MONGODB_ENDPOINT=mongodb://$MONGODB_HOST:27017/db -a docker-service
 tsuru env-set DOCKER_ENDPOINT=http://$DOCKER_HOST:2375 -a docker-service
 ```
 
@@ -91,6 +94,8 @@ Install `crane` and login
 
 Edit the `tsuru-service-manifest.yaml` file setting your login data. The team name must be an existing team name on your infrastructure.
 
+> NOTE: Read the crane commands to use
+
 ```bash
 $ crane create tsuru-service-manifest.yaml
 
@@ -100,7 +105,7 @@ $ crane create tsuru-service-manifest.yaml
 
 ## <a name="create-service-instance"></a>Create service instance
 
-Allright, service installed. We use the `plan´ parameter to specify the name of the docker image you want to create a container. For our example we will use the redis docker image.
+Allright, the TDS is installed and running. We use the `plan´ parameter to specify the name of the docker image you want to create a container. For our example we will use the redis docker image.
 
 To use a service you must create a service instance inside your tsuru environment and set the team who access this instance. Supose you want a redis instance allocated to the development server of your application and the team ` myteam` can access it:
 
