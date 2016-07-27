@@ -98,8 +98,24 @@ $ crane create tsuru-service-manifest.yaml
 
 ```
 
-
 ## <a name="create-service-instance"></a>Create service instance
+
+Allright, service installed. We use the `plan´ parameter to specify the name of the docker image you want to create a container. For our example we will use the redis docker image.
+
+To use a service you must create a service instance inside your tsuru environment and set the team who access this instance. Supose you want a redis instance allocated to the development server of your application and the team ` myteam` can access it:
+
+```bash
+tsuru service-instance-add docker-service redis-dev-application redis -t myteam
+```
 
 ## <a name="bind-service"></a>Bind the service's instance to your app
 
+And then we `bind` this brand new service instance to the dev application
+
+```bash
+tsuru service-instance-bind docker-service redis-dev-application -a dev-application
+```
+
+Then now it is informed the environment variables this service instance exposes inside the dev-application server, and can be used for you application.
+
+Have fun!
